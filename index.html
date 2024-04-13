@@ -33,9 +33,10 @@
 
 <body>
   <div id="upload-container">
-    Upload Image
+    <span id="placeholder">Upload Image</span>
     <input type="file" id="imageInput" style="display: none;" />
     <img id="imageDisplay" src="" alt="Uploaded Image" />
+    <canvas id="overlay" style="position: absolute;"></canvas>
   </div>
 
   <script src="/public/js/face-api.js"></script>
