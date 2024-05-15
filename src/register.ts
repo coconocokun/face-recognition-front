@@ -1,21 +1,10 @@
-async function loadModel() {
-  // await faceapi.loadTinyFaceDetectorModel("/public/models");
-  await faceapi.loadSsdMobilenetv1Model("/public/models");
-}
-
-const container = document.getElementById("upload-container")!;
-const imgInput = document.getElementById("imageInput")! as HTMLInputElement;
-const imgDisplay = document.getElementById("imageDisplay")! as HTMLImageElement;
-const message = document.getElementById("placeholder")!;
-const canvas = document.getElementById("overlay")! as HTMLCanvasElement;
-const checkButton = document.getElementById("uploadbutton")! as HTMLButtonElement;
-const resultMessage = document.getElementById("face-recog")! as HTMLSpanElement;
-
-function drawBox(imageElement: HTMLImageElement, detection: any) {
-  canvas.style.display = "block";
-  faceapi.matchDimensions(canvas, imageElement);
-  faceapi.draw.drawDetections(canvas, faceapi.resizeResults(detection, imageElement));
-}
+const rContainer = document.getElementById("upload-container")!;
+const rImgInput = document.getElementById("imageInput")! as HTMLInputElement;
+const rImgDisplay = document.getElementById("imageDisplay")! as HTMLImageElement;
+const rMessage = document.getElementById("placeholder")!;
+const rCanvas = document.getElementById("overlay")! as HTMLCanvasElement;
+const rCheckButton = document.getElementById("uploadbutton")! as HTMLButtonElement;
+const rResultMessage = document.getElementById("face-recog")! as HTMLSpanElement;
 
 checkButton.addEventListener("click", async () => {
   // Send REST API request to backend http://localhost:3000/....

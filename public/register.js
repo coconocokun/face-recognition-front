@@ -8,24 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-function loadModel() {
-    return __awaiter(this, void 0, void 0, function* () {
-        // await faceapi.loadTinyFaceDetectorModel("/public/models");
-        yield faceapi.loadSsdMobilenetv1Model("/public/models");
-    });
-}
-const container = document.getElementById("upload-container");
-const imgInput = document.getElementById("imageInput");
-const imgDisplay = document.getElementById("imageDisplay");
-const message = document.getElementById("placeholder");
-const canvas = document.getElementById("overlay");
-const checkButton = document.getElementById("uploadbutton");
-const resultMessage = document.getElementById("face-recog");
-function drawBox(imageElement, detection) {
-    canvas.style.display = "block";
-    faceapi.matchDimensions(canvas, imageElement);
-    faceapi.draw.drawDetections(canvas, faceapi.resizeResults(detection, imageElement));
-}
+const rContainer = document.getElementById("upload-container");
+const rImgInput = document.getElementById("imageInput");
+const rImgDisplay = document.getElementById("imageDisplay");
+const rMessage = document.getElementById("placeholder");
+const rCanvas = document.getElementById("overlay");
+const rCheckButton = document.getElementById("uploadbutton");
+const rResultMessage = document.getElementById("face-recog");
 checkButton.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
     // Send REST API request to backend http://localhost:3000/....
     resultMessage.textContent = "";
