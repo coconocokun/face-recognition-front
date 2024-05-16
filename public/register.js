@@ -8,6 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+function rLoadModel() {
+    return __awaiter(this, void 0, void 0, function* () {
+        // await faceapi.loadTinyFaceDetectorModel("/public/models");
+        yield faceapi.loadSsdMobilenetv1Model("/public/models");
+    });
+}
 const rContainer = document.getElementById("upload-container");
 const rImgInput = document.getElementById("imageInput");
 const rImgDisplay = document.getElementById("imageDisplay");
@@ -15,47 +21,52 @@ const rMessage = document.getElementById("placeholder");
 const rCanvas = document.getElementById("overlay");
 const rCheckButton = document.getElementById("uploadbutton");
 const rResultMessage = document.getElementById("face-recog");
-checkButton.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
+function rDrawBox(imageElement, detection) {
+    rCanvas.style.display = "block";
+    faceapi.matchDimensions(rCanvas, imageElement);
+    faceapi.draw.drawDetections(rCanvas, faceapi.resizeResults(detection, imageElement));
+}
+rCheckButton.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
     // Send REST API request to backend http://localhost:3000/....
-    resultMessage.textContent = "";
+    rResultMessage.textContent = "";
     const formData = new FormData();
-    if (!imgInput.files || !imgInput.files[0]) {
+    if (!rImgInput.files || !rImgInput.files[0]) {
         alert("Img not found");
         return;
     }
-    formData.append("image", imgInput.files[0]);
+    formData.append("image", rImgInput.files[0]);
     const response = yield fetch("http://localhost:3000/face-recognition", {
         method: "POST",
         body: formData,
     });
     const responseData = yield response.json();
     if (responseData.distance < 0.4) {
-        resultMessage.textContent = responseData.label;
+        rResultMessage.textContent = responseData.label;
     }
     else {
-        resultMessage.textContent = "No ref image matches this picture";
+        rResultMessage.textContent = "No ref image matches this picture";
     }
 }));
-container.addEventListener("click", () => {
-    imgInput.click();
+rContainer.addEventListener("click", () => {
+    rImgInput.click();
 });
-imgInput.addEventListener("change", (e) => {
+rImgInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (file) {
-        imgDisplay.style.display = "block";
-        imgDisplay.src = URL.createObjectURL(file);
-        container.style.border = "none";
-        message.style.display = "none";
+        rImgDisplay.style.display = "block";
+        rImgDisplay.src = URL.createObjectURL(file);
+        rContainer.style.border = "none";
+        rMessage.style.display = "none";
         // pass the image to the model;
-        faceapi.detectAllFaces(imgDisplay).then((result) => {
+        faceapi.detectAllFaces(rImgDisplay).then((result) => {
             console.log(result);
             // draw box
             if (result) {
-                drawBox(imgDisplay, result);
+                rDrawBox(rImgDisplay, result);
             }
         });
     }
 });
-loadModel().catch((err) => {
+rLoadModel().catch((err) => {
     console.log(err);
 });
